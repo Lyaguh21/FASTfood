@@ -6,15 +6,22 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Menu from "./pages/Menu/Menu.tsx";
 import Cart from "./pages/Cart/Cart.tsx";
 import Error from "./pages/Error/Error.tsx";
+import LayoutMenu from "./layout/LayoutMenu.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Menu />,
-  },
-  {
-    path: "/cart",
-    element: <Cart />,
+    element: <LayoutMenu />,
+    children: [
+      {
+        path: "/",
+        element: <Menu />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
+      },
+    ],
   },
   {
     path: "*",
