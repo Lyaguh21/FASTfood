@@ -20,7 +20,6 @@ export default function ProductCard({
   description,
   rating,
 }: ProductCardProps) {
-  const bgImg = `bg-[url('${image}')]`;
   return (
     <Link
       to={`/product/${id}`}
@@ -35,7 +34,10 @@ export default function ProductCard({
         <Button appearance="nav">{whiteCart}</Button>
       </div>
 
-      <div className={cn("rounded-[18px] h-[165px]  relative", bgImg)}>
+      <div
+        className="rounded-[18px] h-[165px] relative "
+        style={{ backgroundImage: `url('${image}')` }}
+      >
         <div className="w-[51px] h-[29px] rounded-full bg-white gap-1 flex items-center justify-center absolute mt-[151px] mx-3 z-10 shadow-[0px_6.07px_24.29px_#FE724C33]">
           <h2 className="text-[12px] leading-3 text-[#111719] font-semibold">
             {rating}
