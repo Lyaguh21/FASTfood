@@ -15,10 +15,12 @@ export default function Button({
   return (
     <button
       className={cn(
-        "bg-orangeMain hover:bg-orangeHover active:bg-orangeMain text-white text-base font-normal rounded-full w-[141px] h-[44px] ",
+        "bg-orangeMain hover:bg-orangeHover active:bg-orangeMain text-white text-base font-normal rounded-full  ",
         {
           ["w-[248px] h-[60px] uppercase font-semibold "]: appearance == "big",
-          ["w-auto h-auto"]: appearance == "nav",
+          ["w-[116px] h-[43px]  "]: appearance == "exit",
+          ["w-[34px] h-[34px] flex justify-center items-center rounded-full"]:
+            appearance == "nav",
         },
         className
       )}

@@ -6,7 +6,7 @@ export const exitIcon = (
     fill="#FE724C"
     stroke="#FE724C"
     viewBox="-5.25 -5.25 31.5 31.5"
-    className="w-[26px] h-[26px]"
+    className="size-7"
   >
     <rect
       id="SVGRepo_bgCarrier"
