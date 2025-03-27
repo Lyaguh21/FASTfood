@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { whiteCart } from "../../icons/cart-icon";
 import Button from "../ui/Button";
-import cn from "classnames";
 
 interface ProductCardProps {
   id: number;

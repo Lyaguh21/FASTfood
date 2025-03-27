@@ -1,16 +1,46 @@
-import ProductCard from "../../components/templates/ProductCard";
+import { useEffect, useState } from "react";
 import Search from "../../components/ui/Search";
 import Title from "../../components/ui/Title";
+import { PREFIX } from "../../helpers/API";
+import { Product } from "../../interfaces/product.interface";
+import axios, { AxiosError } from "axios";
+import MenuList from "../../components/templates/MenuList";
+import Loading from "../../components/ui/Loading";
+import ErrorElement from "../../components/ui/ErrorElement";
 
 export default function Menu() {
-  const product = {
-    id: 1,
-    price: 300,
-    title: "Наслаждение",
-    description: "Салями, руккола, помидоры, оливки",
-    rating: 4.5,
-    image: "/img/pizza.svg",
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | undefined>();
+
+  // // Обработка запроса из БД
+
+  const getMenu = async () => {
+    try {
+      setIsLoading(true);
+
+      //Таймер загрузки на 2 секунды, по фану для теста
+      await new Promise<void>((resolve) => {
+        setTimeout(() => {
+          resolve();
+        }, 1500);
+      });
+
+      const { data } = await axios.get<Product[]>(`${PREFIX}/products`);
+      setProducts(data);
+      setIsLoading(false);
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        setError(e.message);
+      }
+      setIsLoading(false);
+      return;
+    }
   };
+
+  useEffect(() => {
+    getMenu();
+  }, []);
 
   return (
     <>
@@ -19,14 +49,9 @@ export default function Menu() {
         <Search />
       </div>
       <div className="flex gap-[45px] flex-wrap">
-        <ProductCard
-          id={product.id}
-          price={product.price}
-          title={product.title}
-          description={product.description}
-          rating={product.rating}
-          image={product.image}
-        />
+        {!isLoading && <MenuList products={products} />}
+        {isLoading && <Loading />}
+        {error && <ErrorElement />}
       </div>
     </>
   );

@@ -4,6 +4,7 @@ import Button from "../components/ui/Button";
 import cn from "classnames";
 import { exitIcon } from "../icons/exit-icon";
 import { grayCart } from "../icons/cart-icon";
+import menuIcon from "../icons/menu-icon";
 
 export default function LayoutMenu() {
   return (
@@ -22,7 +23,7 @@ export default function LayoutMenu() {
               })
             }
           >
-            <img src="src\icons\menu-icon.svg" />
+            {menuIcon}
             <h2 className=" font-normal">Меню</h2>
           </NavLink>
           <NavLink
@@ -48,7 +49,7 @@ export default function LayoutMenu() {
           </div>
         </Button>
       </div>
-      <div className="w-full px-[83px] pt-8  h-full">
+      <div className="w-full px-[77px] pt-8  h-full">
         <Outlet />
       </div>
     </div>

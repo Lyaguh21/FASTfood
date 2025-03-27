@@ -5,9 +5,11 @@ import App from "./App.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Menu from "./pages/Menu/Menu.tsx";
 import Cart from "./pages/Cart/Cart.tsx";
-import Error from "./pages/Error/Error.tsx";
 import LayoutMenu from "./layout/LayoutMenu.tsx";
 import ProductInfo from "./components/templates/ProductInfo.tsx";
+import axios from "axios";
+import { PREFIX } from "./helpers/API.ts";
+import ErrorElement from "./components/ui/ErrorElement.tsx";
 
 const router = createBrowserRouter([
   {
@@ -25,12 +27,18 @@ const router = createBrowserRouter([
       {
         path: "/product/:id",
         element: <ProductInfo />,
+        errorElement: <ErrorElement />,
+        loader: async ({ params }) => {
+          return axios
+            .get(`${PREFIX}/products/${params.id}`)
+            .then((res) => res.data);
+        },
       },
     ],
   },
   {
     path: "*",
-    element: <Error />,
+    element: <ErrorElement />,
   },
 ]);
 
