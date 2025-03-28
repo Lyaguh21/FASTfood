@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { whiteCart } from "../../icons/cart-icon";
 import Button from "../ui/Button";
+import Rating from "../ui/Rating";
 
 interface ProductCardProps {
   id: number;
@@ -37,12 +38,7 @@ export default function ProductCard({
         className="rounded-[18px] h-[165px] relative "
         style={{ backgroundImage: `url('${image}')` }}
       >
-        <div className="w-[51px] h-[29px] rounded-full bg-white gap-1 flex items-center justify-center absolute mt-[151px] mx-3 z-10 shadow-[0px_6.07px_24.29px_#FE724C33]">
-          <h2 className="text-[12px] leading-3 text-[#111719] font-semibold">
-            {rating}
-          </h2>
-          <img src="src\icons\star-icon.svg" alt="" className="h-3 w-3" />
-        </div>
+        <Rating rating={rating} className="mt-[151px]" />
       </div>
       <div className="px-3 py-4 flex flex-col gap-1">
         <h2 className="text-black text-[18px] font-semibold">{title}</h2>

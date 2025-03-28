@@ -15,8 +15,9 @@ export default function Button({
   return (
     <button
       className={cn(
-        "bg-orangeMain hover:bg-orangeHover active:bg-orangeMain text-white text-base font-normal rounded-full  ",
+        "bg-orangeMain hover:bg-orangeHover active:bg-orangeMain text-white text-base font-normal rounded-full",
         {
+          ["w-[143px] h-[43px]  "]: appearance == "base",
           ["w-[248px] h-[60px] uppercase font-semibold "]: appearance == "big",
           ["w-[116px] h-[43px]  "]: appearance == "exit",
           ["w-[34px] h-[34px] flex justify-center items-center rounded-full"]:
