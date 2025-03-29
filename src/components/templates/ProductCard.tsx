@@ -40,7 +40,7 @@ export default function ProductCard({
       >
         <Rating rating={rating} className="mt-[151px]" />
       </div>
-      <div className="px-3 py-4 flex flex-col gap-1">
+      <div className="px-3 py-4 flex flex-col ">
         <h2 className="text-black text-[18px] font-semibold">{title}</h2>
         <h2 className="text-sm font-normal text-textGray">{description}</h2>
       </div>

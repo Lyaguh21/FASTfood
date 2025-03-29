@@ -7,6 +7,7 @@ interface MenuProps {
 export default function MenuList({ products }: MenuProps) {
   return products.map((e) => (
     <ProductCard
+      key={e.id}
       id={e.id}
       price={e.price}
       title={e.name}

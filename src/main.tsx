@@ -10,6 +10,9 @@ import ProductInfo from "./components/templates/ProductInfo.tsx";
 import axios from "axios";
 import { PREFIX } from "./helpers/API.ts";
 import ErrorElement from "./components/ui/ErrorElement.tsx";
+import LayoutRegister from "./layout/LayoutRegister.tsx";
+import Login from "./pages/Login/Login.tsx";
+import Register from "./pages/Register/Register.tsx";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +36,20 @@ const router = createBrowserRouter([
             .get(`${PREFIX}/products/${params.id}`)
             .then((res) => res.data);
         },
+      },
+    ],
+  },
+  {
+    path: "/auth",
+    element: <LayoutRegister />,
+    children: [
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Register />,
       },
     ],
   },
