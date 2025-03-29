@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import Label from "../../components/ui/Label";
@@ -16,7 +16,12 @@ export type LoginForm = {
   };
 };
 
+type LoginResponse = {
+  access_token: string;
+};
+
 export default function Login() {
+  const navigate = useNavigate();
   const [error, setError] = useState<boolean>(false);
 
   const submit = async (e: FormEvent) => {
@@ -29,11 +34,12 @@ export default function Login() {
 
   const sendLogin = async (email: string, password: string) => {
     try {
-      const { data } = await axios.post(`${PREFIX}/auth/login`, {
+      const { data } = await axios.post<LoginResponse>(`${PREFIX}/auth/login`, {
         email,
         password,
       });
-      console.log(data);
+      localStorage.setItem("jwt", data.access_token);
+      navigate("/");
     } catch (e) {
       if (e instanceof AxiosError) {
         setError(true);

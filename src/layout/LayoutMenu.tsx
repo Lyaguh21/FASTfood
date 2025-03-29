@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import Button from "../components/ui/Button";
 
 import cn from "classnames";
@@ -7,6 +7,13 @@ import { grayCart } from "../icons/cart-icon";
 import menuIcon from "../icons/menu-icon";
 
 export default function LayoutMenu() {
+  const navigate = useNavigate();
+
+  const logoutClick = () => {
+    localStorage.removeItem("jwt");
+    navigate("/");
+  };
+
   return (
     <div className="flex h-screen">
       <div className="w-[260px] h-full border-r-[1px] border-[#D4D6E0] p-[30px]">
@@ -45,7 +52,9 @@ export default function LayoutMenu() {
         >
           <div className="flex gap-[9px]">
             {exitIcon}
-            <h2 className="mt-[1px]">Выйти</h2>
+            <h2 className="mt-[1px]" onClick={logoutClick}>
+              Выйти
+            </h2>
           </div>
         </Button>
       </div>
