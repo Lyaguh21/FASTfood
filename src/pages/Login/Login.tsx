@@ -3,16 +3,53 @@ import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import Label from "../../components/ui/Label";
 import Title from "../../components/ui/Title";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
+import axios, { AxiosError } from "axios";
+import { PREFIX } from "../../helpers/API";
+
+export type LoginForm = {
+  email: {
+    value: string;
+  };
+  password: {
+    value: string;
+  };
+};
 
 export default function Login() {
-  const submit = (e: FormEvent) => {
+  const [error, setError] = useState<boolean>(false);
+
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log(e);
+    setError(false);
+    const target = e.target as typeof e.target & LoginForm;
+    const { email, password } = target;
+    await sendLogin(email.value, password.value);
   };
+
+  const sendLogin = async (email: string, password: string) => {
+    try {
+      const { data } = await axios.post(`${PREFIX}/auth/login`, {
+        email,
+        password,
+      });
+      console.log(data);
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        setError(true);
+      }
+    }
+  };
+
   return (
     <section className="px-[150px] pt-[172px]">
       <Title className="mb-[30px]">Вход</Title>
+      {error && (
+        <div className="flex flex-col items-center mb-[30px]">
+          <h2 className="text-[#e02222]">Такого пользователя не существует!</h2>
+          <h2 className="text-[#e02222]">Проверьте корректность данных</h2>
+        </div>
+      )}
       <form action="" className="flex flex-col gap-[30px]" onSubmit={submit}>
         <div>
           <Label htmlFor="name">Ваш email</Label>
