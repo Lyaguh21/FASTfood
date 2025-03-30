@@ -12,6 +12,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   return (
     <input
       {...props}
+      autoComplete="on"
       ref={ref}
       className={cn(
         "outline-none border-[1px] border-[#EEEEEE] shadow-sm rounded-[10px] p-[21px] w-full",

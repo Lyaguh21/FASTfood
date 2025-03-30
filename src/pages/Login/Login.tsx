@@ -6,6 +6,9 @@ import Title from "../../components/ui/Title";
 import { FormEvent, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { PREFIX } from "../../helpers/API";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../storage/store";
+import { userActions } from "../../storage/user.slice";
 
 export type LoginForm = {
   email: {
@@ -23,6 +26,7 @@ type LoginResponse = {
 export default function Login() {
   const navigate = useNavigate();
   const [error, setError] = useState<boolean>(false);
+  const dispatch = useDispatch<AppDispatch>();
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
@@ -38,7 +42,7 @@ export default function Login() {
         email,
         password,
       });
-      localStorage.setItem("jwt", data.access_token);
+      dispatch(userActions.addJWT(data.access_token)); //Добавление в хранилище redux
       navigate("/");
     } catch (e) {
       if (e instanceof AxiosError) {
@@ -59,7 +63,13 @@ export default function Login() {
       <form action="" className="flex flex-col gap-[30px]" onSubmit={submit}>
         <div>
           <Label htmlFor="name">Ваш email</Label>
-          <Input placeholder="Email" type="email" id="email" className="mt-1" />
+          <Input
+            placeholder="Email"
+            type="email"
+            name="email"
+            id="email"
+            className="mt-1"
+          />
         </div>
 
         <div>
@@ -68,6 +78,7 @@ export default function Login() {
             placeholder="Пароль"
             id="password"
             type="password"
+            name="password"
             className="mt-1"
           />
         </div>
