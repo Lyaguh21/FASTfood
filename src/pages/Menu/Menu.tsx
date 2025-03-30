@@ -23,7 +23,7 @@ export default function Menu() {
       await new Promise<void>((resolve) => {
         setTimeout(() => {
           resolve();
-        }, 1500);
+        }, 800);
       });
 
       const { data } = await axios.get<Product[]>(`${PREFIX}/products`);

@@ -3,12 +3,10 @@ import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import Label from "../../components/ui/Label";
 import Title from "../../components/ui/Title";
-import { FormEvent, useState } from "react";
-import axios, { AxiosError } from "axios";
-import { PREFIX } from "../../helpers/API";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../storage/store";
-import { userActions } from "../../storage/user.slice";
+import { FormEvent, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../storage/store";
+import { login, userActions } from "../../storage/user.slice";
 
 export type LoginForm = {
   email: {
@@ -19,36 +17,34 @@ export type LoginForm = {
   };
 };
 
-type LoginResponse = {
+export type LoginResponse = {
   access_token: string;
 };
 
 export default function Login() {
   const navigate = useNavigate();
-  const [error, setError] = useState<boolean>(false);
+
   const dispatch = useDispatch<AppDispatch>();
+
+  const jwt = useSelector((s: RootState) => s.user.jwt);
+  const error = useSelector((s: RootState) => s.user.loginErrorMessage);
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
-    setError(false);
+    dispatch(userActions.clearLoginError());
     const target = e.target as typeof e.target & LoginForm;
     const { email, password } = target;
     await sendLogin(email.value, password.value);
   };
 
-  const sendLogin = async (email: string, password: string) => {
-    try {
-      const { data } = await axios.post<LoginResponse>(`${PREFIX}/auth/login`, {
-        email,
-        password,
-      });
-      dispatch(userActions.addJWT(data.access_token)); //Добавление в хранилище redux
+  useEffect(() => {
+    if (jwt) {
       navigate("/");
-    } catch (e) {
-      if (e instanceof AxiosError) {
-        setError(true);
-      }
     }
+  }, [jwt, navigate]);
+
+  const sendLogin = async (email: string, password: string) => {
+    dispatch(login({ email, password }));
   };
 
   return (

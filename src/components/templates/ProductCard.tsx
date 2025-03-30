@@ -35,7 +35,7 @@ export default function ProductCard({
       </div>
 
       <div
-        className="rounded-[18px] h-[165px] relative "
+        className="rounded-[18px] h-[165px] relative bg-no-repeat bg-cover"
         style={{ backgroundImage: `url('${image}')` }}
       >
         <Rating rating={rating} className="mt-[151px]" />
