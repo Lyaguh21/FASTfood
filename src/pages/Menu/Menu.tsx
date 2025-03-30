@@ -48,7 +48,7 @@ export default function Menu() {
         <Title>Меню</Title>
         <Search />
       </div>
-      <div className="flex gap-[45px] flex-wrap">
+      <div className="flex justify-evenly gap-4 flex-wrap">
         {!isLoading && <MenuList products={products} />}
         {isLoading && <Loading />}
         {error && <ErrorElement />}

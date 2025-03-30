@@ -2,6 +2,10 @@ import { Link } from "react-router-dom";
 import { whiteCart } from "../../icons/cart-icon";
 import Button from "../ui/Button";
 import Rating from "../ui/Rating";
+import { MouseEvent } from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../storage/store";
+import { cartAction } from "../../storage/cart.slice";
 
 interface ProductCardProps {
   id: number;
@@ -20,6 +24,12 @@ export default function ProductCard({
   description,
   rating,
 }: ProductCardProps) {
+  const dispatch = useDispatch<AppDispatch>();
+  const add = (e: MouseEvent) => {
+    e.preventDefault();
+    dispatch(cartAction.add(id));
+  };
+
   return (
     <Link
       to={`/product/${id}`}
@@ -31,7 +41,9 @@ export default function ProductCard({
             {price} <span className="text-orangeMain">₽</span>
           </h2>
         </div>
-        <Button appearance="nav">{whiteCart}</Button>
+        <Button appearance="nav" onClick={add}>
+          {whiteCart}
+        </Button>
       </div>
 
       <div
