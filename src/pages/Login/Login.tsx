@@ -7,6 +7,7 @@ import { FormEvent, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../storage/store";
 import { login, userActions } from "../../storage/user.slice";
+import ErrorAuthBlock from "../../components/ui/ErrorAuthblock";
 
 export type LoginForm = {
   email: {
@@ -25,7 +26,6 @@ export default function Login() {
   const navigate = useNavigate();
 
   const dispatch = useDispatch<AppDispatch>();
-
   const jwt = useSelector((s: RootState) => s.user.jwt);
   const error = useSelector((s: RootState) => s.user.loginErrorMessage);
 
@@ -34,7 +34,7 @@ export default function Login() {
     dispatch(userActions.clearLoginError());
     const target = e.target as typeof e.target & LoginForm;
     const { email, password } = target;
-    await sendLogin(email.value, password.value);
+    await dispatch(login({ email: email.value, password: password.value }));
   };
 
   useEffect(() => {
@@ -43,19 +43,11 @@ export default function Login() {
     }
   }, [jwt, navigate]);
 
-  const sendLogin = async (email: string, password: string) => {
-    dispatch(login({ email, password }));
-  };
-
   return (
-    <section className="px-[150px] pt-[172px]">
+    <section className="px-[150px] pt-[108px]">
+      <ErrorAuthBlock error={error} text="Такого пользователя не существует" />
+
       <Title className="mb-[30px]">Вход</Title>
-      {error && (
-        <div className="flex flex-col items-center mb-[30px]">
-          <h2 className="text-[#e02222]">Такого пользователя не существует!</h2>
-          <h2 className="text-[#e02222]">Проверьте корректность данных</h2>
-        </div>
-      )}
       <form action="" className="flex flex-col gap-[30px]" onSubmit={submit}>
         <div>
           <Label htmlFor="name">Ваш email</Label>

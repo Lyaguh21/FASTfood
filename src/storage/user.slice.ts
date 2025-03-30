@@ -15,6 +15,7 @@ export interface UserPersistentState {
 export interface userState {
   jwt: string | null;
   loginErrorMessage?: null | string;
+  registerErrorMessage?: null | string;
   profile?: ProfileProps;
 }
 
@@ -29,6 +30,21 @@ export const login = createAsyncThunk(
       email: params.email,
       password: params.password,
     });
+    return data;
+  }
+);
+
+export const register = createAsyncThunk(
+  "user/register",
+  async (params: { email: string; password: string; name: string }) => {
+    const { data } = await axios.post<LoginResponse>(
+      `${PREFIX}/auth/register`,
+      {
+        email: params.email,
+        password: params.password,
+        name: params.name,
+      }
+    );
     return data;
   }
 );
@@ -57,6 +73,9 @@ export const userSlice = createSlice({
     clearLoginError: (state) => {
       state.loginErrorMessage = undefined;
     },
+    clearRegisterError: (state) => {
+      state.registerErrorMessage = undefined;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(
@@ -65,8 +84,17 @@ export const userSlice = createSlice({
         state.jwt = action.payload.access_token;
       }
     );
+    builder.addCase(
+      register.fulfilled,
+      (state, action: PayloadAction<LoginResponse>) => {
+        state.jwt = action.payload.access_token;
+      }
+    );
     builder.addCase(login.rejected, (state, action) => {
       state.loginErrorMessage = action.error.message;
+    });
+    builder.addCase(register.rejected, (state, action) => {
+      state.registerErrorMessage = action.error.message;
     });
     builder.addCase(getProfile.fulfilled, (state, action) => {
       state.profile = action.payload;
