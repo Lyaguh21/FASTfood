@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import Search from "../../components/ui/Search";
 import Title from "../../components/ui/Title";
 import { PREFIX } from "../../helpers/API";
@@ -16,6 +16,8 @@ export default function Menu() {
   const [error, setError] = useState<string | undefined>();
   const [filter, setFilter] = useState<string>();
 
+  const SearchRef = useRef(null);
+
   useEffect(() => {
     getMenu(filter);
   }, [filter]);
@@ -27,6 +29,7 @@ export default function Menu() {
   const clearFilter = () => {
     setFilter("");
     getMenu();
+    SearchRef.current.value = "";
   };
 
   // // Обработка запроса из БД
@@ -59,9 +62,13 @@ export default function Menu() {
     <>
       <div className="w-full flex justify-between mb-[40px]">
         <Title>Меню</Title>
-        <Search onChange={updateFilter} clear={clearFilter} />
+        <Search onChange={updateFilter} clear={clearFilter} ref={SearchRef} />
       </div>
-      <div className={cn("flex flex-wrap gap-x-[60px] gap-y-7")}>
+      <div
+        className={cn("flex flex-wrap justify-start gap-x-[60px] gap-y-7", {
+          ["justify-evenly"]: products.length >= 3,
+        })}
+      >
         {!isLoading && products.length > 0 && <MenuList products={products} />}
         {products.length === 0 && <NoFound />}
         {isLoading && <Loading />}
