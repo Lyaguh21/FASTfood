@@ -62,15 +62,17 @@ export default function LayoutMenu() {
           <NavLink
             to="/cart"
             className={({ isActive }) =>
-              cn("flex justify-between w-[104px]", {
+              cn("flex justify-between", {
                 ["text-orangeMain"]: isActive,
               })
             }
           >
             {grayCart}
-            <h2 className=" font-normal">Корзина</h2>
+            <h2 className="font-normal ">Корзина </h2>
+            <span className="bg-orangeHover p-1 w-[24px] h-[24px] text-sm flex justify-center items-center text-white rounded-full">
+              {items.reduce((acc, item) => (acc += item.count), 0)}
+            </span>
           </NavLink>
-          {items.reduce((acc, item) => (acc += item.count), 0)}
         </div>
 
         <Button
