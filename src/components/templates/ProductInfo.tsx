@@ -8,9 +8,14 @@ import { backItem } from "../../icons/back-icon";
 import Title from "../ui/Title";
 import { whiteCart } from "../../icons/cart-icon";
 import Rating from "../ui/Rating";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../storage/store";
+import { cartAction } from "../../storage/cart.slice";
 
 export default function ProductInfo() {
   const data = useLoaderData() as Product;
+  const dispatch = useDispatch<AppDispatch>();
+
   return (
     <Suspense fallback={<Loading />}>
       <Await resolve={data} errorElement={<ErrorElement />}>
@@ -26,6 +31,9 @@ export default function ProductInfo() {
               <Button
                 appearance="base"
                 className="flex items-center justify-center gap-[14px]"
+                onClick={() => {
+                  dispatch(cartAction.add(resolvedData.id));
+                }}
               >
                 {whiteCart}
                 <h2>В корзину</h2>

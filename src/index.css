@@ -92,3 +92,13 @@
   animation-name: onOff;
   animation-direction: reverse;
 }
+
+.scroll::-webkit-scrollbar {
+  width: 5px;
+  background-color: rgba(48, 47, 47, 0.1);
+  border-radius: 10px;
+}
+.scroll::-webkit-scrollbar-thumb {
+  background-color: rgb(254, 114, 76);
+  border-radius: 10px;
+}

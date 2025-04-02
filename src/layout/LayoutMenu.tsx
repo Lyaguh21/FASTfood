@@ -43,7 +43,7 @@ export default function LayoutMenu() {
         <h2 className="text-black text-xl font-bold">
           {jwt ? profile?.name : "Аноним"}
         </h2>
-        <h3 className="text-gray text-[14px]  font-normal">
+        <h3 className="text-gray text-[14px] max-w-[170px] overflow-hidden text-ellipsis font-normal">
           {jwt ? profile?.email : "Ваша почта"}
         </h3>
 
@@ -62,7 +62,7 @@ export default function LayoutMenu() {
           <NavLink
             to="/cart"
             className={({ isActive }) =>
-              cn("flex justify-between", {
+              cn("flex gap-[14px]", {
                 ["text-orangeMain"]: isActive,
               })
             }
