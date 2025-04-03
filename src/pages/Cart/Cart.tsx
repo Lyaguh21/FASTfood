@@ -1,17 +1,22 @@
 import { useSelector } from "react-redux";
-import CartCard from "../../components/templates/CartCard";
+import CartCard from "../../components/templates/Cart/CartCard";
 import Title from "../../components/ui/Title";
 import { RootState } from "../../storage/store";
 import { useEffect, useState } from "react";
 import { Product } from "../../interfaces/product.interface";
 import axios from "axios";
 import { PREFIX } from "../../helpers/API";
-import Input from "../../components/ui/Input";
 import UsePromo from "../../components/ui/UsePromo";
+import CartBlockPrice from "../../components/templates/Cart/CartBlockPrice";
+import Button from "../../components/ui/Button";
+import { NavLink } from "react-router-dom";
 
 export default function Cart() {
   const [cartProduct, setCartProduct] = useState<Product[]>([]);
   const items = useSelector((s: RootState) => s.cart.items);
+
+  const deliveryPrice = 169;
+  let allPrice = 0;
 
   const getItem = async (id: number) => {
     const { data } = await axios.get<Product>(`${PREFIX}/products/${id}`);
@@ -26,6 +31,10 @@ export default function Cart() {
   useEffect(() => {
     loadAllItems();
   }, [items]);
+
+  const approvedForm = () => {
+    setCartProduct([]);
+  };
 
   return (
     <>
@@ -45,18 +54,32 @@ export default function Cart() {
             {items.map((i) => {
               const product = cartProduct.find((p) => p.id == i.id);
               if (product) {
+                allPrice += i.count * product.price;
                 return (
                   <CartCard
                     image={product.image}
                     name={product.name}
                     price={product.price}
                     count={i.count}
+                    id={i.id}
                   />
                 );
               }
             })}
           </div>
           <UsePromo />
+          <div className="mt-[30px] w-full flex-col flex">
+            <CartBlockPrice left="Итог" right={allPrice} />
+            <CartBlockPrice left="Доставка" right={deliveryPrice} />
+            <CartBlockPrice left="Итог" right={allPrice + deliveryPrice} />
+          </div>
+          <div className="flex justify-center mt-[35px]">
+            <NavLink to={"/approved"}>
+              <Button appearance="big" onClick={approvedForm}>
+                Оформить
+              </Button>
+            </NavLink>
+          </div>
         </div>
       </div>
     </>

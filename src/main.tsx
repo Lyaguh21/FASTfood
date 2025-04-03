@@ -15,6 +15,7 @@ import Register from "./pages/Register/Register.tsx";
 import RequireAuth from "./helpers/RequireAuth.tsx";
 import { Provider } from "react-redux";
 import { store } from "./storage/store.ts";
+import SendBuyForm from "./components/templates/Cart/SendBuyForm.tsx";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
             <Cart />
           </RequireAuth>
         ),
+      },
+      {
+        path: "/approved",
+        element: <SendBuyForm />,
       },
       {
         path: "/product/:id",
